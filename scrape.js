@@ -48,22 +48,22 @@ let urlScrape = async () => {
   await page.goto('https://www.reliableparts.com/');
 
   const result = await page.evaluate(() => {
-        let data = []; // Create an empty array that will store our data
-        let temp = document.getElementsByClassName('menu-all-category'); // Select all Products
-        let elements = temp[0];
+    let data = []; // Create an empty array that will store our data
+    let temp = document.getElementsByClassName('menu-all-category'); // Select all Products
+    let elements = temp[0];
 
-        for (var element of elements){ // Loop through each proudct
-            let title = element.childNodes[5].innerText; // Select the title
-            let price = element.childNodes[7].children[0].innerText; // Select the price
+    for (var element of elements){ // Loop through each proudct
+      let title = element.childNodes[5].innerText; // Select the title
+      let price = element.childNodes[7].children[0].innerText; // Select the price
 
-            data.push({title, price}); // Push an object with the data onto our array
-        }
+      data.push({title, price}); // Push an object with the data onto our array
+    }
 
-        return data; // Return our data array
-    });
+    return data; // Return our data array
+  });
 
-    browser.close();
-    return result; // Return the data
+  browser.close();
+  return result; // Return the data
 }
 
 
@@ -90,5 +90,5 @@ let scrape = async () => {
 };
 
 urlScrape().then((value) => {
-    console.log(value); // Success!
+  console.log(value); // Success!
 });
