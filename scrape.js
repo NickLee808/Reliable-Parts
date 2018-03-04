@@ -55,7 +55,7 @@ let urlScrape = async () => {
     let elements = temp[0];//<ul> of all products
 
     for (var i = 0; i<elements.length; i++){ // Loop through each proudct
-      return elements[i];
+      data.push(elements[i]);
 
       // let title = element.childNodes[5].innerText; // Select the title
       // let price = element.childNodes[7].children[0].innerText; // Select the price
@@ -95,5 +95,5 @@ let urlScrape = async () => {
 // };
 
 urlScrape().then((value) => {
-  console.log(value); // Success!
+  console.log('value: ', value); // Success!
 });
