@@ -42,6 +42,8 @@ const urls = [
   'https://www.reliableparts.com/catalog/660109'
 ];
 
+
+
 let urlScrape = async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -50,13 +52,15 @@ let urlScrape = async () => {
   const result = await page.evaluate(() => {
     let data = []; // Create an empty array that will store our data
     let temp = document.getElementsByClassName('menu-all-category'); // Select all Products
-    let elements = temp[0];
+    let elements = temp[0];//<ul> of all products
 
-    for (var element of elements){ // Loop through each proudct
-      let title = element.childNodes[5].innerText; // Select the title
-      let price = element.childNodes[7].children[0].innerText; // Select the price
+    for (var i = 0; i<elements.length; i++){ // Loop through each proudct
+      return elements[i];
 
-      data.push({title, price}); // Push an object with the data onto our array
+      // let title = element.childNodes[5].innerText; // Select the title
+      // let price = element.childNodes[7].children[0].innerText; // Select the price
+
+      // data.push({title, price}); // Push an object with the data onto our array
     }
 
     return data; // Return our data array
@@ -67,27 +71,28 @@ let urlScrape = async () => {
 }
 
 
-let scrape = async () => {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  const result = [];
 
-  for (var i=0; i<urls.length; i++) {
-    await page.goto(urls[i]);
-    result.push(await page.evaluate(() => {
-      let data = [];
-      let elements = document.querySelectorAll('.box-bottom');
-      for (var element of elements){
-        let title = element.childNodes[1].innerText;
-        data.push({title});
-      }
-      return data;
-    })
-    )
-  }
-  browser.close();
-  return result;
-};
+// let scrape = async () => {
+//   const browser = await puppeteer.launch();
+//   const page = await browser.newPage();
+//   const result = [];
+
+//   for (var i=0; i<urls.length; i++) {
+//     await page.goto(urls[i]);
+//     result.push(await page.evaluate(() => {
+//       let data = [];
+//       let elements = document.querySelectorAll('.box-bottom');
+//       for (var element of elements){
+//         let title = element.childNodes[1].innerText;
+//         data.push({title});
+//       }
+//       return data;
+//     })
+//     )
+//   }
+//   browser.close();
+//   return result;
+// };
 
 urlScrape().then((value) => {
   console.log(value); // Success!
