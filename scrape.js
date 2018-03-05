@@ -41,26 +41,26 @@ const urls = [
   'https://www.reliableparts.com/catalog/air_conditioner_filters',
   'https://www.reliableparts.com/catalog/660109',
   'https://www.reliableparts.com/catalog/659561',
-  'https://www.reliableparts.com/catalog/660110',
-  'https://www.reliableparts.com/catalog/660108',
-  'https://www.reliableparts.com/catalog/660099',
-  'https://www.reliableparts.com/catalog/660100',
-  'https://www.reliableparts.com/catalog/660115',
-  'https://www.reliableparts.com/catalog/660124',
-  'https://www.reliableparts.com/catalog/660125',
-  'https://www.reliableparts.com/catalog/660126',
-  'https://www.reliableparts.com/catalog/660114',
-  'https://www.reliableparts.com/catalog/air_conditioner_repair_tools',
-  'https://www.reliableparts.com/catalog/compressor_hard_start_kits',
-  'https://www.reliableparts.com/catalog/648800',
-  'https://www.reliableparts.com/catalog/electronic_control_boards',
-  'https://www.reliableparts.com/catalog/motor_mounting_bracket_kits',
-  'https://www.reliableparts.com/catalog/a_c_air_conditioner_motors',
-  'https://www.reliableparts.com/catalog/motor_run_capacitors',
-  'https://www.reliableparts.com/catalog/motor_start_capacitors',
-  'https://www.reliableparts.com/catalog/time_delay_timers',
-  'https://www.reliableparts.com/catalog/relays_',
-  'https://www.reliableparts.com/catalog/transformers_'
+  // 'https://www.reliableparts.com/catalog/660110',
+  // 'https://www.reliableparts.com/catalog/660108',
+  // 'https://www.reliableparts.com/catalog/660099',
+  // 'https://www.reliableparts.com/catalog/660100',
+  // 'https://www.reliableparts.com/catalog/660115',
+  // 'https://www.reliableparts.com/catalog/660124',
+  // 'https://www.reliableparts.com/catalog/660125',
+  // 'https://www.reliableparts.com/catalog/660126',
+  // 'https://www.reliableparts.com/catalog/660114',
+  // 'https://www.reliableparts.com/catalog/air_conditioner_repair_tools',
+  // 'https://www.reliableparts.com/catalog/compressor_hard_start_kits',
+  // 'https://www.reliableparts.com/catalog/648800',
+  // 'https://www.reliableparts.com/catalog/electronic_control_boards',
+  // 'https://www.reliableparts.com/catalog/motor_mounting_bracket_kits',
+  // 'https://www.reliableparts.com/catalog/a_c_air_conditioner_motors',
+  // 'https://www.reliableparts.com/catalog/motor_run_capacitors',
+  // 'https://www.reliableparts.com/catalog/motor_start_capacitors',
+  // 'https://www.reliableparts.com/catalog/time_delay_timers',
+  // 'https://www.reliableparts.com/catalog/relays_',
+  // 'https://www.reliableparts.com/catalog/transformers_'
 ];
 
 
@@ -105,7 +105,9 @@ let scrape = async () => {
       let elements = document.querySelectorAll('.box-bottom');
       for (var i = 0; i < elements.length; i++){
         let title = elements[i].childNodes[1].innerText;
-        data.push({title});
+        let partNum = elements[i].childNodes[3].innerText;
+        let price = elements[i].childNodes[5].innerText;
+        data.push({title, partNum, price});
       }
       return data;
     })
@@ -116,5 +118,5 @@ let scrape = async () => {
 };
 
 scrape().then((value) => {
-  console.log('value: ', value); // Success!
+  console.log('value: ', value);
 });
