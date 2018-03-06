@@ -22,17 +22,10 @@ let scrape = async () => {
     await page.goto(category);
     arrayOfAllSubs.push(await page.evaluate(() => {
       let data = [];
-      let undefineds = [];
       // 'categoryMenu' = className for subcategories of each category's page
       let categoryMenu = document.querySelectorAll('.categoryMenu');
-      if (categoryMenu.length){
-        let childrenHtml = categoryMenu[0].children;
-        for(itemLink of childrenHtml){
-          data.push(itemLink.children[1].href);
-        }
-      } else {
-        return undefined;
-      }
+      let childrenHtml = categoryMenu.children;
+      return childrenHtml;
     }))
   }
   

@@ -1,15 +1,14 @@
-const puppeteer = require('puppeteer');
 // All air conditionar parts
+const puppeteer = require('puppeteer');
 
-let initialScrape = async () => {
+let scrape = async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  const result = [];
-  let rootLinks;
-  let tempResult = [];
+
+  let result = [];
 
   await page.goto('https://www.reliableparts.com/');
-  rootLinks = (await page.evaluate(()  => {
+  let rootLinks = (await page.evaluate(() => {
     let data = [];
     let rawHtml = document.querySelectorAll('.menu-all-category');
     let childrenHtml = rawHtml[0].children[0].children;
@@ -19,34 +18,31 @@ let initialScrape = async () => {
     return data;
   }));
 
-  for(var x = 0; x < rootLinks.length; x++){
-    await page.goto(rootLinks[x]);
-    tempResult.push(await page.evaluate(() => {
+  for(var j = 0; j < rootLinks.length; j++){
+    await page.goto(rootLinks[j]);
+    result.push(await page.evaluate(() => {
       let data = [];
+      let undefineds = [];
       let rawHtml = document.querySelectorAll('.categoryMenu');
       if(rawHtml.length === 0){
-        return undefined;
+        let productList = document.querySelectorAll('.row.subcategory-row');
+        undefineds.push(productList);
+        return productList;
       }
-      // let childrenHtml = rawHtml[0].children[1].children[1].href;
       let childrenHtml = rawHtml[0].children;
-      for(var j = 0; j < childrenHtml.length; j++){
-        data.push(childrenHtml[j].children[1].href);
+      for(var k = 0; k < childrenHtml.length; k++){
+        data.push(childrenHtml[k].children[1].href);
       }
-      // return childrenHtml;
-      return data;
+      return undefineds;
     }))
   }
-
+  
   browser.close();
-
-  return tempResult;
-  return rootLinks;
+  return result;
 };
 
 
-initialScrape()
-.then((scrapedData) => {
-  console.log('SCRAPED DATA for intial URLS: ', scrapedData);
-  firstUrls = scrapedData;
-
+scrape().then((urls) => {
+  console.log('SCRAPED DATA: ', urls);
+  //add scrape() here
 })
