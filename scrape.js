@@ -1,6 +1,52 @@
 const puppeteer = require('puppeteer');
 
-const urls = [
+let scrape = async () => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto('https://www.reliableparts.com/');
+  
+  // Saves all main categories as an array named 'arrayOfAllCategories'
+  const arrayOfAllCategories = await page.evaluate(() => {
+    let data = [];
+    let allCategories = document.querySelectorAll('.menu-all-category')[0].children[0].children;
+    for (category of allCategories) {
+      data.push(category.firstChild.attributes[0].nodeValue);
+    }
+    return data;
+  });
+
+  let arrayOfAllSubs = [];
+  let arrayOfAllProducts = [];
+
+  for (category of arrayOfAllCategories){
+    await page.goto(category);
+    arrayOfAllSubs.push(await page.evaluate(() => {
+      let data = [];
+      let undefineds = [];
+      // 'categoryMenu' = className for subcategories of each category's page
+      let categoryMenu = document.querySelectorAll('.categoryMenu');
+      if (categoryMenu.length){
+        let childrenHtml = categoryMenu[0].children;
+        for(itemLink of childrenHtml){
+          data.push(itemLink.children[1].href);
+        }
+      } else {
+        return undefined;
+      }
+    }))
+  }
+  
+  browser.close();
+  return arrayOfAllSubs;
+}
+
+
+scrape().then((value) => {
+  console.log(value);
+})
+
+
+/*const urls = [
   'https://www.reliableparts.com/catalog/air_conditioner_filters',
   'https://www.reliableparts.com/catalog/660109',
   'https://www.reliableparts.com/catalog/659561',
@@ -26,11 +72,7 @@ const urls = [
   'https://www.reliableparts.com/catalog/transformers_'
 ];
 
-
-
-
-
-/*let scrape = async () => {
+let scrape = async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   const result = [];
@@ -86,13 +128,3 @@ scrape().then((scrapedData) => {
   browser.close();
   return result; // Return the data
 }*/
-
-
-
-
-
-let scrape = async () => {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.goto('https://www.reliableparts.com/');
-  
