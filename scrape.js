@@ -20,13 +20,13 @@ let scrape = async () => {
 
   for (category of arrayOfAllCategories){
     await page.goto(category);
-    arrayOfAllSubs.push(await page.evaluate(() => {
+    await page.evaluate(() => {
       let data = [];
       // 'categoryMenu' = className for subcategories of each category's page
       let categoryMenu = document.querySelectorAll('.categoryMenu');
       let childrenHtml = categoryMenu.children;
       return childrenHtml;
-    }))
+    })
   }
   
   browser.close();
