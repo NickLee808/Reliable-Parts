@@ -23,13 +23,13 @@ let scrape = async () => {
     result.push(await page.evaluate(() => {
       let data = [];
       let undefineds = [];
-      let rawHtml = document.querySelectorAll('.categoryMenu');
-      if(rawHtml.length === 0){
+      let categoryMenu = document.querySelectorAll('.categoryMenu');
+      if(categoryMenu.length === 0){
         let productList = document.querySelectorAll('.row.subcategory-row');
         undefineds.push(productList);
         return productList;
       }
-      let childrenHtml = rawHtml[0].children;
+      let childrenHtml = categoryMenu[0].children;
       for(var k = 0; k < childrenHtml.length; k++){
         data.push(childrenHtml[k].children[1].href);
       }

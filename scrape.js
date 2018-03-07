@@ -5,38 +5,60 @@ let scrape = async () => {
   const page = await browser.newPage();
   await page.goto('https://www.reliableparts.com/');
   
-  // Saves all main categories as an array named 'arrayOfAllCategories'
-  const arrayOfAllCategories = await page.evaluate(() => {
+  // Saves all main categories as an array named 'allCategories'
+  const allCategories = await page.evaluate(() => {
     let data = [];
     let allCategories = document.querySelectorAll('.menu-all-category')[0].children[0].children;
     for (category of allCategories) {
-      data.push(category.firstChild.attributes[0].nodeValue);
+      data.push(category.firstChild.attributes[0].textContent);
     }
     return data;
   });
+  // ^^^^^^^^^^^^^^^WORKING! DON'T TOUCH!^^^^^^^^^^^^^
 
-  let arrayOfAllSubs = [];
-  let arrayOfAllProducts = [];
+  let allSubCats = [];
+  let allProducts = [];
 
-  for (category of arrayOfAllCategories){
+  for (category of allCategories){
     await page.goto(category);
     await page.evaluate(() => {
       let data = [];
       // 'categoryMenu' = className for subcategories of each category's page
       let categoryMenu = document.querySelectorAll('.categoryMenu');
-      let childrenHtml = categoryMenu.children;
-      return childrenHtml;
+      return data;
     })
   }
   
   browser.close();
-  return arrayOfAllSubs;
+  return allCategories;
 }
 
 
 scrape().then((value) => {
   console.log(value);
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*const urls = [
