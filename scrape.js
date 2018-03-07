@@ -4,36 +4,49 @@ let scrape = async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('https://www.reliableparts.com/');
+
+
   
-  // Saves all main categories as an array named 'allCategories'
+  // vvvvvvvv Saves all main categories as an array named 'allCategories'
   const allCategories = await page.evaluate(() => {
-    let data = [];
+    let temp = [];
     let allCategories = document.querySelectorAll('.menu-all-category')[0].children[0].children;
     for (category of allCategories) {
-      data.push(category.firstChild.attributes[0].textContent);
+      temp.push(category.firstChild.attributes[0].textContent);
     }
-    return data;
+    return temp;
   });
-  // ^^^^^^^^^^^^^^^WORKING! DON'T TOUCH!^^^^^^^^^^^^^
+  // ^^^^^^^^^^^^^^^ WORKING! DON'T TOUCH! ^^^^^^^^^^^^^
+
+
 
   let allSubCats = [];
   let allProducts = [];
 
+  // vvvvvvv Loops through 'allCategories' to get 'allSubCats' vvvvvvvvvv
   for (category of allCategories){
     await page.goto(category);
-    await page.evaluate(() => {
-      let data = [];
+    allSubCats.push (await page.evaluate(() => {
+      let temp = [];
       // 'categoryMenu' = className for subcategories of each category's page
       let categoryMenu = document.querySelectorAll('.categoryMenu');
-      return data;
-    })
+      if(categoryMenu.length === 0){
+        return undefined;
+      }
+      let partsCollection = categoryMenu[0].children;
+      for(collection of partsCollection){
+        temp.push(collection.children[1].href);
+      }
+      return temp;
+    }))
   }
   
   browser.close();
-  return allCategories;
+  // Final working answer
+  return allSubCats;
 }
 
-
+// Runs the whole damn thing
 scrape().then((value) => {
   console.log(value);
 })
