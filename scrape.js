@@ -26,7 +26,7 @@ let scrape = async () => {
   // vvvvvvv Loops through 'allCategories' to get 'allSubCats' vvvvvvvvvv
   for (category of allCategories){
     await page.goto(category);
-    allSubCats.push (await page.evaluate(() => {
+    allSubCats.push(await page.evaluate(() => {
       let temp = [];
       // 'categoryMenu' = className for subcategories of each category's page
       let categoryMenu = document.querySelectorAll('.categoryMenu');
@@ -39,11 +39,20 @@ let scrape = async () => {
       }
       return temp;
     }))
+    allProducts.push(await page.evaluate(() => {
+      let temp = [];
+      let products = document.querySelectorAll('.box-bottom');
+      for (product of products){
+        let title = product.childNodes[1].innerText;
+        temp.push({title});
+      }
+      return temp;
+    }))
   }
   
   browser.close();
   // Final working answer
-  return allSubCats;
+  return allProducts;
 }
 
 // Runs the whole damn thing
