@@ -39,12 +39,12 @@ let scrape = async () => {
       }
       return temp;
     }))
+    // stores all direct links to products in an array
     allProducts.push(await page.evaluate(() => {
       let temp = [];
-      let products = document.querySelectorAll('.box-bottom');
+      let products = document.querySelectorAll('.product-image-sub');
       for (product of products){
-        let title = product.childNodes[1].innerText;
-        temp.push({title});
+        temp.push(product.childNodes[0].href);
       }
       return temp;
     }))
