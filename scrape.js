@@ -50,9 +50,11 @@ let scrape = async () => {
     }))
   }
   
+  
+  
   browser.close();
   // Final working answer
-  return allProducts;
+  return allSubCats;
 }
 
 // Runs the whole damn thing
