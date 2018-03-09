@@ -19,8 +19,8 @@ let scrape = async () => {
   });
 
   // vvvvvvv Loops through 'allCategories' to get 'allSubCats' vvvvvvvvvv
-  for (category of allCategories){
-    await page.goto(category);
+  for (subCategory of allCategories){
+    await page.goto(subCategory);
     allSubCats.push(await page.evaluate(() => {
       let temp = [];
       // 'categoryMenu' = className for subcategories of each category's page
@@ -47,7 +47,17 @@ let scrape = async () => {
   
   for (subCategory of allSubCats){
     if (subCategory !== undefined){
-
+      for (innerArray of subCategory){
+        await page.goto(innerArray);
+        allProducts.push(await page.evaluate(() => {
+          let temp = [];
+          let products = document.querySelectorAll('.product-image-sub');
+          for (product of products){
+            temp.push('henlo: ', product.childNodes[0].href);
+          }
+          return temp;
+        }))
+      }
     }
   }
 
