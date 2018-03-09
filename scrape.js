@@ -61,6 +61,17 @@ let scrape = async () => {
     }
   }
 
+  /*for (innerArray of allProducts){
+    if (innerArray.length !== 0){
+      for (productLink of innerArray){
+        await page.goto(productLink);
+        await page.evaluate(() => {
+
+        });
+      }
+    }
+  }*/
+
   browser.close();
   // Final working answer
   return allProducts;
