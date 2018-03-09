@@ -5,7 +5,8 @@ let scrape = async () => {
   const page = await browser.newPage();
   await page.goto('https://www.reliableparts.com/');
 
-
+  let allSubCats = [];
+  let allProducts = [];
   
   // vvvvvvvv Saves all main categories as an array named 'allCategories'
   const allCategories = await page.evaluate(() => {
@@ -16,12 +17,6 @@ let scrape = async () => {
     }
     return temp;
   });
-  // ^^^^^^^^^^^^^^^ WORKING! DON'T TOUCH! ^^^^^^^^^^^^^
-
-
-
-  let allSubCats = [];
-  let allProducts = [];
 
   // vvvvvvv Loops through 'allCategories' to get 'allSubCats' vvvvvvvvvv
   for (category of allCategories){
@@ -50,11 +45,15 @@ let scrape = async () => {
     }))
   }
   
-  
-  
+  for (subCategory of allSubCats){
+    if (subCategory !== undefined){
+
+    }
+  }
+
   browser.close();
   // Final working answer
-  return allSubCats;
+  return allProducts;
 }
 
 // Runs the whole damn thing
