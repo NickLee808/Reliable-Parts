@@ -72,17 +72,25 @@ let scrape = async () => {
   // allProducts is now an array of every product's direct URL as a string
   let allProducts = [].concat.apply([], cleanArray);
 
+  let allData = [];
+
   // Enter every product link and grab title, partNum, price, description, imgURL, replacesParts, fitsModels 
   for (product of allProducts){
     await page.goto(product);
-
-
-    }
+    allData.push(await page.evaluate(() => {
+      console.log('henlo');
+      let imgURL = document.querySelector('.owl-item.active').querySelector('a').href;
+      let title = document.querySelectorAll('.col-xs-12.col-sm-12.col-md-6.product-detail-right')[0].childNodes[1].innerText;
+      let partNum = document.querySelectorAll('h1')[0].innerText.slice(8);
+      let price = document.querySelectorAll('.product-details-price')[0].innerText;
+      let description = document.querySelectorAll('.product-details-right-bottom.gray-font')[0].innerText;
+      return {title, partNum, price, description};
+    }));
   }
 
   browser.close();
   // Final working answer
-  return ();
+  return (allData);
 }
 
 // Runs the whole damn thing
