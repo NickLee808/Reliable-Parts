@@ -79,12 +79,13 @@ let scrape = async () => {
     await page.goto(product);
     allData.push(await page.evaluate(() => {
       console.log('henlo');
-      let imgURL = document.querySelector('.owl-item.active').querySelector('a').href;
+      let imgURL = document.querySelector('.owl-item.active').querySelector('a').href
       let title = document.querySelectorAll('.col-xs-12.col-sm-12.col-md-6.product-detail-right')[0].childNodes[1].innerText;
       let partNum = document.querySelectorAll('h1')[0].innerText.slice(8);
       let price = document.querySelectorAll('.product-details-price')[0].innerText;
       let description = document.querySelectorAll('.product-details-right-bottom.gray-font')[0].innerText;
-      return {title, partNum, price, description};
+      //let replacesParts = document.getElementById('collapseOne').querySelectorAll('li');
+      return {imgURL, title, partNum, price, description};
     }));
   }
 
