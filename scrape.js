@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
 let scrape = async () => {
   const browser = await puppeteer.launch();
@@ -6,6 +7,8 @@ let scrape = async () => {
   await page.goto('https://www.reliableparts.com/');
 
   let allSubCats = [];
+  let dirtyArray = [];
+  let cleanArray = [];
   let allProducts = [];
   
   // Saves all main categories as an array named 'allCategories'
@@ -35,7 +38,7 @@ let scrape = async () => {
       return temp;
     }))
     // Stores all direct links to products in an array
-    allProducts.push(await page.evaluate(() => {
+    dirtyArray.push(await page.evaluate(() => {
       let temp = [];
       let products = document.querySelectorAll('.product-image-sub');
       for (product of products){
@@ -49,7 +52,7 @@ let scrape = async () => {
     if (subCategory !== undefined){
       for (innerArray of subCategory){
         await page.goto(innerArray);
-        allProducts.push(await page.evaluate(() => {
+        dirtyArray.push(await page.evaluate(() => {
           let temp = [];
           let products = document.querySelectorAll('.product-image-sub');
           for (product of products){
@@ -61,23 +64,24 @@ let scrape = async () => {
     }
   }
 
-  /*for (innerArray of allProducts){
+  for (innerArray of dirtyArray){
     if (innerArray.length !== 0){
-      for (productLink of innerArray){
-        await page.goto(productLink);
-        await page.evaluate(() => {
-
-        });
-      }
+      cleanArray.push(innerArray);
     }
-  }*/
+  }
+
+
 
   browser.close();
   // Final working answer
-  return allProducts;
+  return (JSON.stringify([].concat.apply([], cleanArray)));
 }
 
 // Runs the whole damn thing
 scrape().then((value) => {
-  console.log(value);
+  fs.writeFile('data.JSON', value, function (err) {
+    if (err) throw err;
+    console.log('Saved!');
+  });
 })
+
