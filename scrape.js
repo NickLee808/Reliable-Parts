@@ -9,7 +9,6 @@ let scrape = async () => {
   let allSubCats = [];
   let dirtyArray = [];
   let cleanArray = [];
-  let allProducts = [];
   
   // Saves all main categories as an array named 'allCategories'
   const allCategories = await page.evaluate(() => {
@@ -70,18 +69,27 @@ let scrape = async () => {
     }
   }
 
+  // allProducts is now an array of every product's direct URL as a string
+  let allProducts = [].concat.apply([], cleanArray);
 
+  // Enter every product link and grab title, partNum, price, description, imgURL, replacesParts, fitsModels 
+  for (product of allProducts){
+    await page.goto(product);
+
+
+    }
+  }
 
   browser.close();
   // Final working answer
-  return (JSON.stringify([].concat.apply([], cleanArray)));
+  return ();
 }
 
 // Runs the whole damn thing
 scrape().then((value) => {
   fs.writeFile('data.JSON', value, function (err) {
     if (err) throw err;
-    console.log('Saved!');
+    console.log('Data saved as "/data.JSON"');
   });
 })
 
