@@ -1,33 +1,42 @@
-const puppeteer = require('puppeteer');
 const Promise = require('bluebird');
+const puppeteer = require('puppeteer');
 const fs = Promise.promisifyAll(require('fs'));
 
 let scrape = async () => {
     let subcategories = await fs.readFileAsync('subcategories.json', 'utf8')
-        .then(data => JSON.parse(data).subcategories);
+        .then(data => JSON.parse(data).subcategories.slice(0, 3));
+    console.log('subcategories');
+    console.log(subcategories);
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     let dirtyArr = [];
-    let nextPage = (url) => {
+    let nextPage = async (url) => {
         await page.goto(url);
-        dirtyArr.push(await page.evaluate(() => {
+        console.log('went to: ', url);
+        let href = await page.evaluate(() => {
             let pagination = document.querySelector('.pagination');
-            let hasNext = pagination.innerText.indexOf('NEXT') > -1;
-            if(hasNext) {
-                let href = pagination.lastChild.childNodes[1].href;
-                dirtyArr.push(href);
-                resolve(nextPage(href));
-            }else{
-                resolve(null);
+            if(!!pagination) {
+                let hasNext = pagination.innerText.indexOf('NEXT') > -1;
+                if(hasNext) {
+                    let link = pagination.lastChild.childNodes[1].href;
+                    return [link, nextPage(link)];
+                }else{
+                    return null;
+                }
             }
-        }));
+        });
     }
     for(let i = 0; i < subcategories.length; i++) {
         let sub = subcategories[i]
-        await nextPage(sub);
-        console.log('dirtyArr: ', dirtyArr);
+        dirtyArr.push(await nextPage(sub));
+        fs.writeFile('dirtyArr.json',
+        JSON.parse({"dirtyArr": dirtyArr}),
+            (err) => {
+                if(err) throw err;
+                console.log('done');
+            });
     }
 }
 
