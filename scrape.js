@@ -76,9 +76,9 @@ let scrape = async () => {
 
   // Enter every product link and grab title, partNum, price, description, imgURL, replacesParts, fitsModels 
   for (product of allProducts){
+    await setTimeout(() => {}, 500);
     await page.goto(product);
     allData.push(await page.evaluate(() => {
-      console.log('henlo');
       let imgURL = document.querySelector('.owl-item.active').querySelector('a').href
       let title = document.querySelectorAll('.col-xs-12.col-sm-12.col-md-6.product-detail-right')[0].childNodes[1].innerText;
       let partNum = document.querySelectorAll('h1')[0].innerText.slice(8);
@@ -87,12 +87,13 @@ let scrape = async () => {
       //let replacesParts = document.getElementById('collapseOne').querySelectorAll('li');
       let fitsModels = [];
       let models = document.querySelector('#collapseThree');
-      models = models.querySelectorAll('li');
-      for(model of models) {
-        fitsModels.push(model.querySelector('a').textContent);
+      if(!!models) {
+        models = models.querySelectorAll('li');
+        for(model of models) {
+          fitsModels.push(model.querySelector('a').textContent);
+        }
       }
-      return fitsModels;
-      return {imgURL, title, partNum, price, description, /*replacesParts, */fitsModels};
+      return {imgURL, title, partNum, price, description, fitsModels};
     }));
   }
 
