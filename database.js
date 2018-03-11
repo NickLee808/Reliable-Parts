@@ -9,8 +9,18 @@ let database = async () => {
     // import allData.json
     let allData = await fs.readFileAsync('scraping/5-sequelize/allData.json', 'utf8')
         .then(data => JSON.parse(data));
-    console.log(allData.slice(0,5));
-    await Part.bulkCreate(allData)
+    let stringifiedData = allData.map(part => {
+        let newPart = {};
+        newPart.imgURL = part.imgURL;
+        newPart.title = part.title;
+        newPart.partNum = part.partNum;
+        newPart.price = part.price;
+        newPart.description = part.description;
+        newPart.replacesParts = JSON.stringify(part.replacesParts);
+        newPart.fitsModels = JSON.stringify(part.fitsModels);
+        return newPart;
+    })
+    await Part.bulkCreate(stringifiedData)
         .then(() => {
             return Part.findAll();
         })
