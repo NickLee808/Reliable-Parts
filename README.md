@@ -10,5 +10,10 @@
 3. Run migrations and seeds
     * `sequelize db:create`
     * `sequelize db:migrate`
-4. Load data
+4. Enter credentials
+    * Enter credentials in config/config.json
+    * Change username and password for "development"
+    * Change database name as see fit
+    * Change dialect as see fit according to http://docs.sequelizejs.com/manual/installation/usage.html#dialects
+5. Load data
     * `node database.js`
