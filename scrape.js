@@ -75,7 +75,7 @@ let scrape = async () => {
   let allData = [];
 
   // Enter every product link and grab title, partNum, price, description, imgURL, replacesParts, fitsModels 
-/*  for (product of allProducts){
+for (product of allProducts){
     await setTimeout(() => {}, 500);
     await page.goto(product);
     allData.push(await page.evaluate(() => {
@@ -95,7 +95,7 @@ let scrape = async () => {
       }
       return {imgURL, title, partNum, price, description, fitsModels};
     }));
-  }*/
+  }
 
   browser.close();
   // Final working answer
