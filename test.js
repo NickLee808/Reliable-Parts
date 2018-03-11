@@ -6,30 +6,21 @@ let scrape = async () => {
   const page = await browser.newPage();
   const result = [];
 
-  function pageGoto (url) {
-    await page.goto(`${url}`);
-    result.push(await page.evaluate(() => {
-    let temp = [];
-    let products = document.querySelectorAll('.product-image-sub');
-    for (product of products){
-      temp.push(product.childNodes[0].href);
-    };
-    if (document.querySelector('[aria-label="Next"]')){
-      pageGoto(document.querySelector('[aria-label="Next"]').href);
-    }
-    return temp;
-    }));
-  }
-
   await page.goto('https://www.reliableparts.com/catalog/Dishwasher-Accessories-461418');
   result.push(await page.evaluate(() => {
-  let temp = [];
+    let temp = [];
     let products = document.querySelectorAll('.product-image-sub');
-    for (product of products){
+    for(product of products){
       temp.push(product.childNodes[0].href);
     };
-    if (document.querySelector('[aria-label="Next"]')){
-      pageGoto(document.querySelector('[aria-label="Next"]').href);
+    while(document.querySelector('[aria-label="Next"]')){
+      await page.goto(document.querySelector('[aria-label="Next"]').href);
+      await page.evaluate(() => {
+        let newProducts = document.querySelectorAll('.product-image-sub');
+        for (newProduct of newProducts){
+          temp.push(newProduct.childNodes[0].href);
+        }
+      })
     }
     return temp;
   }));

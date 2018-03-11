@@ -85,7 +85,8 @@ let scrape = async () => {
       let price = document.querySelectorAll('.product-details-price')[0].innerText;
       let description = document.querySelectorAll('.product-details-right-bottom.gray-font')[0].innerText;
       //let replacesParts = document.getElementById('collapseOne').querySelectorAll('li');
-      return {imgURL, title, partNum, price, description};
+      //let fitsModels = document.getElementById('collapseThree').querySelectorAll('li');
+      return {imgURL, title, partNum, price, description/*, replacesParts, fitsModels*/};
     }));
   }
 
