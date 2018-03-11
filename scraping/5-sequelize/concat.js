@@ -4,27 +4,27 @@ const fs = Promise.promisifyAll(require('fs'));
 
 // concat allProducts
 let concat = async () => {
-    let batch1 = await fs.readFileAsync('data/0to500.json', 'utf8')
+    let batch1 = await fs.readFileAsync('../4-products/0to500.json', 'utf8')
         .then(data => JSON.parse(data));
-    let batch2 = await fs.readFileAsync('data/500to1000.json', 'utf8')
+    let batch2 = await fs.readFileAsync('../4-products/500to1000.json', 'utf8')
         .then(data => JSON.parse(data));
-    let batch3 = await fs.readFileAsync('data/1000to1500.json', 'utf8')
+    let batch3 = await fs.readFileAsync('../4-products/1000to1500.json', 'utf8')
         .then(data => JSON.parse(data));
-    let batch4 = await fs.readFileAsync('data/1500to2000.json', 'utf8')
+    let batch4 = await fs.readFileAsync('../4-products/1500to2000.json', 'utf8')
         .then(data => JSON.parse(data));
-    let batch5 = await fs.readFileAsync('data/2000to2500.json', 'utf8')
+    let batch5 = await fs.readFileAsync('../4-products/2000to2500.json', 'utf8')
         .then(data => JSON.parse(data));
-    let batch6 = await fs.readFileAsync('data/2500to3000.json', 'utf8')
+    let batch6 = await fs.readFileAsync('../4-products/2500to3000.json', 'utf8')
         .then(data => JSON.parse(data));
-    let batch7 = await fs.readFileAsync('data/3000to3500.json', 'utf8')
+    let batch7 = await fs.readFileAsync('../4-products/3000to3500.json', 'utf8')
         .then(data => JSON.parse(data));
-    let batch8 = await fs.readFileAsync('data/3500to4000.json', 'utf8')
+    let batch8 = await fs.readFileAsync('../4-products/3500to4000.json', 'utf8')
         .then(data => JSON.parse(data));
-    let batch9 = await fs.readFileAsync('data/4000to4500.json', 'utf8')
+    let batch9 = await fs.readFileAsync('../4-products/4000to4500.json', 'utf8')
         .then(data => JSON.parse(data));
-    let batch10 = await fs.readFileAsync('data/4500to5000.json', 'utf8')
+    let batch10 = await fs.readFileAsync('../4-products/4500to5000.json', 'utf8')
         .then(data => JSON.parse(data));
-    let batch11 = await fs.readFileAsync('data/5000to5248.json', 'utf8')
+    let batch11 = await fs.readFileAsync('../4-products/5000to5248.json', 'utf8')
         .then(data => JSON.parse(data));
     let allData = batch1.concat(batch2, batch3, batch4, batch5, batch6, batch7, batch8, batch9, batch10, batch11);
 

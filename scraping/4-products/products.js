@@ -4,8 +4,8 @@ const puppeteer = require('puppeteer');
 const fs = Promise.promisifyAll(require('fs'));
 
 // current batch
-const start = 3500;
-const stop = 4000;
+const start = 5000;
+const stop = 5248;
 
 let scrape = async () => {
     // import allProducts urls

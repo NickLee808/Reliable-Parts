@@ -7,9 +7,10 @@ const { Part } = db;
 
 let database = async () => {
     // import allData.json
-    let allData = await fs.readFileAsync('allData.json', 'utf8')
+    let allData = await fs.readFileAsync('scraping/5-sequelize/allData.json', 'utf8')
         .then(data => JSON.parse(data));
-    Part.bulkCreate(allData)
+    console.log(allData.slice(0,5));
+    await Part.bulkCreate(allData)
         .then(() => {
             return Part.findAll();
         })
@@ -20,3 +21,5 @@ let database = async () => {
             if(err) throw err;
         });
 }
+
+database();

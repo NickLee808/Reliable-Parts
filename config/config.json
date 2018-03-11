@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "username",
-    "password": "password",
-    "database": "database",
+    "username": "edward",
+    "password": "abc123",
+    "database": "reliable-parts",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "test": {
     "username": "username",
