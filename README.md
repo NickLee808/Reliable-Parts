@@ -7,13 +7,13 @@
     * `brew install node` (on MacOS)
 2. Install sequelize-cli
     * `npm install -g sequelize-cli`
-3. Create database and run migrations
-    * `sequelize db:create`
-    * `sequelize db:migrate`
-4. Enter credentials
+3. Enter credentials
     * Enter credentials in config/config.json
     * Change username and password for "development"
     * Change database name as see fit
     * Change dialect as see fit according to http://docs.sequelizejs.com/manual/installation/usage.html#dialects
+4. Create database and run migrations
+    * `sequelize db:create`
+    * `sequelize db:migrate`
 5. Load data
     * `node database.js`
