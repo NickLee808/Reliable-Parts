@@ -5,6 +5,8 @@
 1. Install Node
     * `sudo apt-get install nodejs npm` (on Ubuntu)
     * `brew install node` (on MacOS)
+2. Install dependencies
+    * `npm install`
 2. Install sequelize-cli
     * `npm install -g sequelize-cli`
 3. Enter credentials
